@@ -971,6 +971,9 @@ input[type="checkbox"]:checked::after,
   --cyber-callout-mute: #d9d9d9;
   --callout-radius: 0px;
   --callout-padding: 0;
+  /* Default Obsidian lighten/multiply blend cancels callouts on pure black */
+  --callout-blend-mode: normal;
+  mix-blend-mode: normal;
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(252, 238, 10, 0.35);
