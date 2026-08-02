@@ -1710,17 +1710,13 @@ input[type="search"],
 input[type="email"],
 input[type="password"],
 input[type="number"],
-textarea,
-select,
-.dropdown {
+textarea {
   border: 1px solid var(--background-modifier-border);
   background: var(--background-modifier-form-field);
   font-family: var(--font-interface-theme);
 }
 input:focus,
-textarea:focus,
-select:focus,
-.dropdown:focus {
+textarea:focus {
   border-color: var(--input-focus-border-color) !important;
   box-shadow: 0 0 0 2px var(--input-focus-ring-color);
 }
@@ -2211,15 +2207,37 @@ progress::-webkit-progress-value {
   clip-path: none;
 }
 
-/* Theme / dropdown selects — solid fill so native markers don't bleed through */
+/*
+  Dropdowns — never use the `background` shorthand here.
+  It resets background-repeat/size/position and tiles Obsidian's chevron SVG.
+*/
 select,
+select.dropdown,
 .dropdown {
-  background-color: #0a0a0a !important;
-  color: var(--text-normal) !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  border: 1px solid var(--background-modifier-border) !important;
+  border-radius: 0 !important;
   clip-path: none !important;
-  text-transform: none;
-  letter-spacing: 0.02em;
+  color: var(--text-normal) !important;
+  font-family: var(--font-interface-theme);
   font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  padding-inline-end: 2rem !important;
+  background-color: #0a0a0a !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23fcee0a' stroke-width='2' stroke-linecap='square' stroke-linejoin='miter'%3E%3Cpolyline points='8 8 12 4 16 8'%3E%3C/polyline%3E%3Cpolyline points='8 16 12 20 16 16'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.55em center !important;
+  background-size: 14px 14px !important;
+}
+
+select:focus,
+select.dropdown:focus,
+.dropdown:focus {
+  border-color: var(--input-focus-border-color) !important;
+  box-shadow: 0 0 0 2px var(--input-focus-ring-color);
+  outline: none;
 }
 
 select option {
