@@ -10,6 +10,7 @@
    4. Ghost + solid CTA — outline buttons + solid yellow primary actions
    5. HUD micro-labels  — UPPERCASE + 0.08–0.12em tracking (NEWS_ / /// .module)
    6. No remote fonts   — Rajdhani embedded locally at EMBED_RAJDHANI marker
+   7. Hard HUD motion   — dock/snap enter + press physics (transform/opacity)
    Dark-only theme     — no light / California paper mode
 ═══════════════════════════════════════════════════════════════════════════
 */
@@ -178,6 +179,14 @@ body {
 
   --divider-width: 1px;
   --prompt-border-width: 1px;
+
+  /* Motion — machined snap (not soft float) */
+  --cyber-ease-dock: cubic-bezier(0.16, 1, 0.3, 1);
+  --cyber-ease-press: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --cyber-ease-signal: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --cyber-dur-press: 140ms;
+  --cyber-dur-hover: 220ms;
+  --cyber-dur-dock: 360ms;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -464,8 +473,9 @@ body {
 .workspace-tab-header {
   border-radius: 0;
   margin: 2px 1px;
-  transition: background-color 120ms ease, color 120ms ease,
-    box-shadow 120ms ease;
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
 }
 
 .workspace-tab-header-inner {
@@ -521,8 +531,10 @@ body {
   border-radius: 0;
   margin: 2px 4px;
   color: var(--cyber-chrome-muted);
-  transition: background-color 120ms ease, color 120ms ease,
-    box-shadow 120ms ease;
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal),
+    transform var(--cyber-dur-press) var(--cyber-ease-press);
 }
 
 .side-dock-ribbon-action:hover {
@@ -568,8 +580,9 @@ body {
   margin-inline: 6px 8px;
   border-radius: 0;
   border: 1px solid transparent;
-  transition: background-color 120ms ease, border-color 120ms ease,
-    box-shadow 120ms ease;
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    border-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
 }
 .nav-folder-title,
 .nav-file-title {
@@ -580,7 +593,10 @@ body {
   color: var(--nav-item-color);
   border: 1px solid transparent;
   background: transparent;
-  transition: color 120ms ease;
+  transition: color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    border-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
 }
 
 .nav-files-container .tree-item.nav-file:hover {
@@ -1717,8 +1733,11 @@ button,
   text-transform: uppercase;
   font-size: 0.78em;
   clip-path: var(--cyber-clip-cta);
-  transition: background-color 120ms ease, color 120ms ease,
-    border-color 120ms ease, box-shadow 120ms ease;
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    border-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal),
+    transform var(--cyber-dur-press) var(--cyber-ease-press);
 }
 
 button:hover {
@@ -2353,25 +2372,126 @@ progress::-webkit-progress-value {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   32. MOTION — restrained HUD presence
+   32. MOTION — hard HUD dock / signal snap
+   Different from soft “float up” UI: overlays dock in via scale+opacity,
+   controls press in place. No reading-content / callout animation.
+   Opt out: Style Settings → Disable interface motion (cyber-static)
    ═══════════════════════════════════════════════════════════════════════ */
 
+@keyframes cyber-dock-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cyber-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cyber-toast-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cyber-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .nav-file-title,
-  .nav-folder-title,
-  .workspace-tab-header,
-  .side-dock-ribbon-action,
-  .tag,
-  a.tag,
-  button.mod-cta,
-  button,
-  .suggestion-item,
-  .menu-item,
-  .view-action,
-  .clickable-icon,
-  .nav-files-container .tree-item.nav-file {
-    transition: background-color 120ms ease, color 120ms ease,
-      box-shadow 120ms ease, border-color 120ms ease;
+  body:not(.cyber-static) .clickable-icon,
+  body:not(.cyber-static) .view-action,
+  body:not(.cyber-static) .nav-action-button,
+  body:not(.cyber-static) .menu-item,
+  body:not(.cyber-static) .suggestion-item,
+  body:not(.cyber-static) .vertical-tab-nav-item,
+  body:not(.cyber-static) .status-bar-item,
+  body:not(.cyber-static) .tag,
+  body:not(.cyber-static) a.tag {
+    transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+      color var(--cyber-dur-hover) var(--cyber-ease-signal),
+      border-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+      box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal),
+      opacity var(--cyber-dur-hover) var(--cyber-ease-signal),
+      transform var(--cyber-dur-press) var(--cyber-ease-press);
+  }
+
+  /* Overlays — hard dock (scale + opacity, no float) */
+  body:not(.cyber-static) .modal,
+  body:not(.cyber-static) .modal-container .modal {
+    animation: cyber-dock-in var(--cyber-dur-dock) var(--cyber-ease-dock) both;
+  }
+
+  body:not(.cyber-static) .menu {
+    animation: cyber-panel-in var(--cyber-dur-dock) var(--cyber-ease-dock) both;
+    transform-origin: top center;
+  }
+
+  body:not(.cyber-static) .prompt,
+  body:not(.cyber-static) .suggestion-container {
+    animation: cyber-dock-in var(--cyber-dur-dock) var(--cyber-ease-dock) both;
+  }
+
+  body:not(.cyber-static) .notice {
+    animation: cyber-toast-in var(--cyber-dur-dock) var(--cyber-ease-dock) both;
+  }
+
+  body:not(.cyber-static) .tooltip {
+    animation: cyber-fade-in var(--cyber-dur-press) var(--cyber-ease-signal) both;
+  }
+
+  /* Press physics — in-place, no lift/nudge that fights tab/nav layout */
+  body:not(.cyber-static) .side-dock-ribbon-action:active,
+  body:not(.cyber-static) .nav-action-button:active,
+  body:not(.cyber-static) .clickable-icon:active,
+  body:not(.cyber-static) .view-action:active {
+    transform: scale(0.92);
+  }
+
+  body:not(.cyber-static) button:active,
+  body:not(.cyber-static) .mod-button:active {
+    transform: scale(0.97);
+  }
+
+  /* CTA — expand signal, not vertical lift */
+  body:not(.cyber-static) button.mod-cta:hover,
+  body:not(.cyber-static) .mod-cta:hover {
+    transform: scale(1.02);
+  }
+
+  body:not(.cyber-static) button.mod-cta:active,
+  body:not(.cyber-static) .mod-cta:active {
+    transform: scale(0.98);
+  }
+
+  /* Toggle — color snap */
+  body:not(.cyber-static) .checkbox-container,
+  body:not(.cyber-static) .checkbox-container::after {
+    transition: background-color var(--cyber-dur-hover) var(--cyber-ease-dock),
+      border-color var(--cyber-dur-hover) var(--cyber-ease-dock),
+      box-shadow var(--cyber-dur-hover) var(--cyber-ease-dock);
   }
 }
 
@@ -2382,6 +2502,24 @@ progress::-webkit-progress-value {
     transition: none !important;
     animation: none !important;
   }
+}
+
+body.cyber-static *,
+body.cyber-static *::before,
+body.cyber-static *::after {
+  animation: none !important;
+}
+
+body.cyber-static .side-dock-ribbon-action,
+body.cyber-static button,
+body.cyber-static .mod-button,
+body.cyber-static button.mod-cta,
+body.cyber-static .mod-cta,
+body.cyber-static .clickable-icon,
+body.cyber-static .view-action,
+body.cyber-static .nav-action-button {
+  transition: none !important;
+  transform: none !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -2408,6 +2546,12 @@ settings:
   - id: cyber-hud-labels
     title: HUD micro-labels
     description: Force monospace uppercase chrome labels (vault root, H4, settings groups)
+    type: class-toggle
+    default: false
+
+  - id: cyber-static
+    title: Disable interface motion
+    description: Turn off dock/enter animations and press/CTA transforms
     type: class-toggle
     default: false
 */

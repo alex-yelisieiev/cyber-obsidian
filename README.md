@@ -14,7 +14,8 @@ An [Obsidian](https://obsidian.md) theme inspired by the [Cyberpunk](https://www
 - Sharp rectangular tags and yellow-fill checkboxes
 - Distinct Night City callout treatments per type with filled icon chips
 - Print styles use solid fills only (no gradient banding in PDF)
-- Optional Style Settings toggles (`cyber-wide`, `cyber-hud-labels`)
+- Hard HUD interface motion — dock/snap overlays, press physics, CTA signal scale (opt out via Style Settings)
+- Optional Style Settings toggles (`cyber-wide`, `cyber-hud-labels`, `cyber-static`)
 
 ## Installation
 
