@@ -132,6 +132,8 @@ body {
   --input-radius: 0px;
   --tab-radius: 0px;
   --tab-radius-active: 0px;
+  /* Kill Obsidian's default tab "feet" / bottom flourishes */
+  --tab-curve: 0px;
   --checkbox-radius: 2px;
   --checkbox-marker-color: #000000;
   --button-radius: 0px;
@@ -662,13 +664,22 @@ body {
   padding: 4px 10px;
 }
 
+/* Flatten default curved tab wings drawn via ::before/::after */
+.workspace-split.mod-root .workspace-tab-header.is-active::before,
+.workspace-split.mod-root .workspace-tab-header.is-active::after {
+  box-shadow: inset 0 0 0 var(--tab-outline-width) var(--tab-outline-color);
+}
+
 .workspace-tab-header.is-active {
   background-color: var(--tab-background-active);
-  box-shadow: inset 0 -2px 0 var(--cyber-yellow);
+  border: 1px solid var(--tab-outline-color);
+  border-bottom: none;
+  box-shadow: none;
 }
 
 .theme-light .workspace-tab-header.is-active {
-  box-shadow: inset 0 -2px 0 #000000;
+  border-color: #000000;
+  box-shadow: none;
 }
 
 .workspace-tab-header.is-active .workspace-tab-header-inner-title {
@@ -793,7 +804,7 @@ body {
   color: var(--nav-item-color-hover);
 }
 
-/* Active file — yellow left rail + clipped chip (NOT soft ice pill) */
+/* Active file — yellow left rail + clipped chip (no trailing solid notch) */
 .nav-files-container .tree-item.nav-file:has(> .nav-file-title.is-active) {
   background: rgba(252, 238, 10, 0.1);
   border-color: rgba(252, 238, 10, 0.55);
@@ -817,44 +828,17 @@ body {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
-  padding-inline-end: 1.4em;
+  padding-inline-end: 0.6em;
 }
 
 .theme-light .nav-file-title.is-active {
   color: #000000;
 }
 
-/* Trailing signal notch on active file */
 .nav-files-container
   .tree-item.nav-file:has(> .nav-file-title.is-active)::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  inset-inline-end: 0.45em;
-  z-index: 1;
-  width: 8px;
-  height: 8px;
-  transform: translateY(-50%);
-  background: #fcee0a;
-  clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
-  box-shadow: 0 0 8px rgba(252, 238, 10, 0.55);
-  pointer-events: none;
-}
-
-.theme-light
-  .nav-files-container
-  .tree-item.nav-file:has(> .nav-file-title.is-active)::after {
-  background: #000000;
-  box-shadow: none;
-}
-
-.nav-files-container
-  .tree-item.nav-file:has(> .nav-file-title.is-active .nav-file-tag)::after {
+  content: none;
   display: none;
-}
-
-.nav-file-title.is-active:has(.nav-file-tag) {
-  padding-inline-end: 0.6em;
 }
 
 /* Vault root — NEWS_ style micro-label */
