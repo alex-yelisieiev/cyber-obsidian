@@ -2430,7 +2430,552 @@ select option {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   32. MOTION — hard HUD dock / signal snap
+   32. MICRO-DETAILS — dense Night City HUD craft
+   Hairlines, corner ticks, rails, chips. No :has. No select shorthand.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* —— Status bar: tick + separators —— */
+.status-bar {
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(252, 238, 10, 0.12);
+}
+.status-bar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #fcee0a;
+  pointer-events: none;
+}
+.status-bar-item {
+  position: relative;
+  padding-inline: 0.55em;
+  border-radius: 0;
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+.status-bar-item:hover {
+  box-shadow: inset 0 -2px 0 #fcee0a;
+  color: #fcee0a;
+}
+.status-bar-item + .status-bar-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 30%;
+  bottom: 30%;
+  width: 1px;
+  background: rgba(252, 238, 10, 0.22);
+}
+
+/* —— Tabs: idle dim, hover hairline, active underline —— */
+.workspace-tab-header:not(.is-active) {
+  opacity: 0.78;
+}
+.workspace-tab-header:hover {
+  opacity: 1;
+  background-color: rgba(252, 238, 10, 0.06);
+  box-shadow: inset 0 2px 0 rgba(252, 238, 10, 0.55);
+}
+.workspace-tab-header.is-active {
+  opacity: 1;
+  box-shadow: inset 0 -2px 0 #fcee0a;
+}
+.workspace-tab-header-inner-close-button:hover {
+  color: #fe1038;
+  background: rgba(254, 16, 56, 0.12);
+}
+.workspace-tab-header-new-tab:hover,
+.workspace-tab-header-tab-list:hover {
+  color: #fcee0a;
+  background: rgba(252, 238, 10, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.35);
+}
+
+/* —— Ribbon: framed hover + active cap —— */
+.side-dock-ribbon-action:hover {
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.45),
+    inset 2px 0 0 rgba(0, 240, 255, 0.7);
+}
+.side-dock-ribbon-action.is-active {
+  box-shadow: inset 2px 0 0 #fcee0a, inset 0 0 0 1px rgba(252, 238, 10, 0.28);
+}
+.workspace-ribbon.mod-left::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin: 8px 6px 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 240, 255, 0.45),
+    transparent
+  );
+}
+
+/* —— View header actions —— */
+.view-action {
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal),
+    transform var(--cyber-dur-press) var(--cyber-ease-press);
+}
+.view-action:hover {
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.4);
+  color: #fcee0a;
+}
+.view-header-title:hover {
+  color: #fcee0a;
+}
+
+/* —— Nav chrome —— */
+.nav-action-button {
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal),
+    transform var(--cyber-dur-press) var(--cyber-ease-press);
+}
+.nav-action-button:hover {
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.4);
+  color: #fcee0a;
+}
+.nav-folder-title:hover .tree-item-icon,
+.nav-file-title:hover .tree-item-icon {
+  color: #00f0ff;
+}
+.nav-folder-title.is-active,
+.tree-item-self.is-active {
+  letter-spacing: 0.03em;
+}
+.nav-files-container .tree-item.nav-file:hover {
+  box-shadow: inset 2px 0 0 rgba(0, 240, 255, 0.55);
+}
+.nav-file-title.is-active {
+  box-shadow: inset 3px 0 0 #fcee0a, inset 0 0 0 1px rgba(252, 238, 10, 0.55),
+    0 0 18px rgba(252, 238, 10, 0.08);
+}
+
+/* —— Clickable icons: square frame —— */
+.clickable-icon {
+  border-radius: 0 !important;
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal),
+    transform var(--cyber-dur-press) var(--cyber-ease-press);
+}
+.clickable-icon:hover {
+  color: #fcee0a;
+  background: rgba(252, 238, 10, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.45);
+}
+
+/* —— Resize handle signal —— */
+.workspace-leaf-resize-handle {
+  transition: background-color var(--cyber-dur-press) var(--cyber-ease-signal);
+}
+.workspace-leaf-resize-handle:hover {
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
+}
+
+/* —— Scrollbars —— */
+::-webkit-scrollbar-thumb {
+  border: 1px solid rgba(0, 0, 0, 0.65);
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(252, 238, 10, 0.55) !important;
+}
+
+/* —— Links: underline rail —— */
+.markdown-rendered a,
+.cm-hmd-internal-link,
+.cm-link {
+  transition: color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    text-decoration-color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    text-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+.markdown-rendered a:hover,
+.cm-hmd-internal-link:hover,
+.cm-link:hover {
+  text-shadow: 0 0 12px rgba(252, 238, 10, 0.25);
+  text-decoration-thickness: 2px;
+}
+.markdown-rendered a.external-link::after {
+  content: "↗";
+  margin-inline-start: 0.2em;
+  font-size: 0.75em;
+  color: rgba(0, 240, 255, 0.65);
+}
+
+/* —— Tags: inset bevel + hover cyan frame —— */
+.tag,
+a.tag,
+.cm-hashtag {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    border-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+.tag:hover,
+a.tag:hover {
+  box-shadow: inset 0 1px 0 rgba(0, 240, 255, 0.25),
+    0 0 0 1px rgba(0, 240, 255, 0.35), 0 0 14px rgba(0, 240, 255, 0.12);
+}
+
+/* —— Checkboxes / tasks —— */
+input[type="checkbox"],
+.task-list-item-checkbox {
+  transition: border-color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    background-color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+input[type="checkbox"]:hover,
+.task-list-item-checkbox:hover {
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.22);
+}
+input[type="checkbox"]:checked,
+.task-list-item-checkbox:checked {
+  box-shadow: inset 0 0 0 1px #000000, 0 0 10px rgba(252, 238, 10, 0.2);
+}
+
+/* —— Blockquote micro-cap —— */
+.markdown-rendered blockquote {
+  position: relative;
+  box-shadow: inset 3px 0 0 #fcee0a;
+}
+.markdown-rendered blockquote::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 2px;
+  background: #fcee0a;
+}
+
+/* —— Inline code / pre —— */
+.cm-s-obsidian span.cm-inline-code,
+.markdown-rendered :not(pre) > code {
+  box-shadow: inset 0 1px 0 rgba(252, 238, 10, 0.12);
+  transition: border-color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+.markdown-rendered :not(pre) > code:hover {
+  border-color: rgba(0, 240, 255, 0.55);
+  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.15);
+}
+.markdown-rendered pre {
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.12),
+    inset 3px 0 0 rgba(0, 240, 255, 0.45);
+}
+.markdown-rendered pre:hover {
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.28),
+    inset 3px 0 0 #00f0ff;
+}
+
+/* —— Tables —— */
+.markdown-rendered th {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.82em;
+  border-bottom: 2px solid rgba(252, 238, 10, 0.45) !important;
+}
+.markdown-rendered tr {
+  transition: background-color var(--cyber-dur-fast) var(--cyber-ease-signal);
+}
+.markdown-rendered tr:hover td {
+  background: rgba(252, 238, 10, 0.04);
+}
+.markdown-rendered td {
+  border-color: rgba(252, 238, 10, 0.12) !important;
+}
+
+/* —— HR endpoint ticks (keep existing /// ::after label) —— */
+.markdown-rendered hr {
+  position: relative;
+}
+.markdown-rendered hr::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background: #fcee0a;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* —— Mark / highlight —— */
+.markdown-rendered mark,
+.cm-highlight {
+  transition: box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+.markdown-rendered mark:hover,
+.cm-highlight:hover {
+  box-shadow: inset 0 -2px 0 #fcee0a, 0 0 12px rgba(252, 238, 10, 0.15);
+}
+
+/* —— Modals / menus / prompts —— */
+.modal-title::before {
+  content: "/// ";
+  color: #00f0ff;
+  letter-spacing: 0.04em;
+}
+.modal-close-button:hover {
+  color: #fe1038;
+  background: rgba(254, 16, 56, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(254, 16, 56, 0.45);
+}
+.menu {
+  box-shadow: var(--cyber-shadow-panel), inset 0 0 0 1px rgba(252, 238, 10, 0.12);
+}
+.menu-item {
+  transition: background-color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-fast) var(--cyber-ease-signal);
+}
+.menu-item:hover,
+.menu-item.is-selected {
+  box-shadow: inset 2px 0 0 #fcee0a;
+}
+.menu-separator {
+  border-image: linear-gradient(
+      90deg,
+      transparent,
+      rgba(252, 238, 10, 0.45),
+      transparent
+    )
+    1;
+}
+.notice {
+  box-shadow: var(--cyber-glow-yellow), inset 3px 0 0 #fcee0a;
+}
+.notice::before {
+  content: "SIGNAL";
+  display: block;
+  font-size: 0.65em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #fcee0a;
+  margin-bottom: 0.25em;
+}
+.prompt,
+.suggestion-container {
+  box-shadow: var(--cyber-shadow-panel), 0 0 0 1px rgba(252, 238, 10, 0.18);
+}
+.prompt-input {
+  border-radius: 0 !important;
+  border-bottom: 1px solid rgba(252, 238, 10, 0.35) !important;
+  letter-spacing: 0.03em;
+}
+.prompt-input:focus {
+  border-bottom-color: #00f0ff !important;
+  box-shadow: none !important;
+}
+.suggestion-item {
+  transition: background-color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-fast) var(--cyber-ease-signal);
+}
+.suggestion-item:hover,
+.suggestion-item.is-selected {
+  box-shadow: inset 2px 0 0 #fcee0a;
+}
+.suggestion-highlight {
+  color: #00f0ff;
+  font-weight: 700;
+}
+
+/* —— Tooltip —— */
+.tooltip {
+  box-shadow: 0 0 0 1px rgba(252, 238, 10, 0.35),
+    0 12px 28px -16px rgba(0, 0, 0, 0.8);
+}
+.tooltip::before {
+  content: "";
+  display: block;
+  height: 2px;
+  margin: -0.35em -0.55em 0.4em;
+  background: linear-gradient(90deg, #fcee0a, #00f0ff);
+}
+
+/* —— Inputs —— */
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea {
+  transition: border-color var(--cyber-dur-fast) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+input:hover,
+textarea:hover {
+  border-color: rgba(252, 238, 10, 0.4);
+}
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 0 2px var(--input-focus-ring-color),
+    inset 0 -1px 0 rgba(0, 240, 255, 0.45);
+}
+
+/* —— Ghost buttons: top hairline on hover —— */
+button:not(.clickable-icon):not(.view-action):not(.nav-action-button):not(
+    .side-dock-ribbon-action
+  ):hover {
+  box-shadow: inset 0 1px 0 rgba(252, 238, 10, 0.35);
+}
+button.mod-cta,
+.mod-cta {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+button.mod-cta:hover,
+.mod-cta:hover {
+  box-shadow: var(--cyber-glow-yellow), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+button.mod-warning:hover {
+  box-shadow: inset 0 0 0 1px #fe1038, 0 0 14px rgba(254, 16, 56, 0.2);
+}
+
+/* —— Settings toggle / slider —— */
+.checkbox-container {
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.2);
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-dock),
+    border-color var(--cyber-dur-hover) var(--cyber-ease-dock),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-dock);
+}
+.checkbox-container:hover {
+  box-shadow: inset 0 0 0 1px rgba(0, 240, 255, 0.45);
+}
+.checkbox-container.is-enabled {
+  box-shadow: inset 0 0 0 1px #000000, 0 0 12px rgba(252, 238, 10, 0.25);
+}
+.checkbox-container.is-enabled::after {
+  background-color: #000000;
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+input[type="range"]::-webkit-slider-thumb {
+  transition: transform var(--cyber-dur-press) var(--cyber-ease-press),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.35);
+}
+
+/* —— Settings nav —— */
+.vertical-tab-nav-item {
+  transition: background-color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    color var(--cyber-dur-hover) var(--cyber-ease-signal),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+.vertical-tab-nav-item:hover {
+  background: rgba(252, 238, 10, 0.06);
+  box-shadow: inset 2px 0 0 rgba(0, 240, 255, 0.55);
+  color: #f5f5f5;
+}
+.vertical-tab-nav-item.is-active {
+  box-shadow: inset 3px 0 0 #fcee0a, inset 0 0 0 1px rgba(252, 238, 10, 0.18);
+}
+.setting-item:hover .setting-item-name {
+  color: #fcee0a;
+}
+
+/* —— Search / outline —— */
+.search-result-file-title:hover,
+.search-result-file-matches:hover {
+  box-shadow: inset 2px 0 0 rgba(0, 240, 255, 0.5);
+}
+.search-result-file-matched-text {
+  box-shadow: inset 0 -2px 0 #fcee0a;
+}
+.outline .tree-item-self:hover {
+  box-shadow: inset 2px 0 0 rgba(252, 238, 10, 0.45);
+}
+.outline .tree-item-self.is-active {
+  box-shadow: inset 3px 0 0 #fcee0a;
+  background: rgba(252, 238, 10, 0.1);
+}
+
+/* —— Empty state —— */
+.empty-state-title {
+  font-family: var(--font-interface-theme);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fcee0a;
+}
+.empty-state-title::before {
+  content: "/// ";
+  color: #00f0ff;
+}
+.empty-state-action:hover {
+  color: #fcee0a;
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.45);
+}
+
+/* —— Metadata / properties —— */
+.metadata-property:hover {
+  background: rgba(252, 238, 10, 0.04);
+  box-shadow: inset 2px 0 0 rgba(0, 240, 255, 0.35);
+}
+.metadata-property-key {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.78em;
+}
+
+/* —— Graph / canvas —— */
+.graph-controls {
+  border: 1px solid rgba(252, 238, 10, 0.28);
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+.canvas-node.is-focused .canvas-node-container,
+.canvas-node.is-selected .canvas-node-container {
+  box-shadow: 0 0 0 1px #fcee0a, 0 0 18px rgba(252, 238, 10, 0.2);
+}
+
+/* —— Callout icon hover (chrome only; no enter anim) —— */
+.callout-icon {
+  transition: transform var(--cyber-dur-press) var(--cyber-ease-press),
+    box-shadow var(--cyber-dur-hover) var(--cyber-ease-signal);
+}
+.callout:hover .callout-icon {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 0 12px rgba(var(--callout-color), 0.25);
+}
+
+/* —— Editor active line / gutter —— */
+.cm-activeLine {
+  box-shadow: inset 2px 0 0 rgba(252, 238, 10, 0.22);
+}
+.cm-activeLineGutter {
+  color: #fcee0a;
+  opacity: 1;
+}
+.cm-gutters {
+  border-inline-end: 1px solid rgba(252, 238, 10, 0.12);
+}
+
+/* —— Progress —— */
+progress::-webkit-progress-value {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* —— Flair: corner tick —— */
+.flair.mod-pop {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   33. MOTION — hard HUD dock / signal snap
    Different from soft “float up” UI: overlays dock in via scale+opacity,
    controls press in place. No reading-content / callout animation.
    Opt out: Style Settings → Disable interface motion (cyber-static)
@@ -2551,6 +3096,48 @@ select option {
       border-color var(--cyber-dur-hover) var(--cyber-ease-dock),
       box-shadow var(--cyber-dur-hover) var(--cyber-ease-dock);
   }
+
+  /* —— Interaction extras (transform/opacity only) —— */
+  body:not(.cyber-static) .clickable-icon:hover,
+  body:not(.cyber-static) .view-action:hover,
+  body:not(.cyber-static) .nav-action-button:hover {
+    transform: scale(1.04);
+  }
+
+  body:not(.cyber-static) .side-dock-ribbon-action:hover {
+    transform: scale(1.05);
+  }
+
+  body:not(.cyber-static) .workspace-tab-header-inner-close-button:active {
+    transform: scale(0.9);
+  }
+
+  body:not(.cyber-static) button.mod-warning:active {
+    transform: scale(0.97);
+  }
+
+  body:not(.cyber-static) .menu-item:active,
+  body:not(.cyber-static) .suggestion-item:active,
+  body:not(.cyber-static) .vertical-tab-nav-item:active {
+    opacity: 0.85;
+  }
+
+  body:not(.cyber-static) .tag:active,
+  body:not(.cyber-static) a.tag:active {
+    transform: scale(0.97);
+  }
+
+  body:not(.cyber-static) .status-bar-item:active {
+    opacity: 0.75;
+  }
+
+  body:not(.cyber-static) .callout:hover .callout-icon {
+    transform: scale(1.06);
+  }
+
+  body:not(.cyber-static) input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(0.95);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2581,7 +3168,7 @@ body.cyber-static .nav-action-button {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   33. STYLE SETTINGS (optional knobs)
+   34. STYLE SETTINGS (optional knobs)
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* @settings
