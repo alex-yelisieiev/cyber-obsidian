@@ -1,6 +1,6 @@
 # Cyber
 
-![Cyber theme preview](screenshot.png)
+![Cyber theme preview](poster.png)
 
 An [Obsidian](https://obsidian.md) theme inspired by the [Cyberpunk](https://www.cyberpunk.net) brand system — Night City void chrome, clipped HUD geometry, and California-yellow daylight surfaces.
 
