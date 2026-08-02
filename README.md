@@ -2,14 +2,13 @@
 
 ![Cyber theme preview](poster.png)
 
-An [Obsidian](https://obsidian.md) theme inspired by the [Cyberpunk](https://www.cyberpunk.net) brand system — Night City void chrome, clipped HUD geometry, and California-yellow daylight surfaces.
+An [Obsidian](https://obsidian.md) theme inspired by the [Cyberpunk](https://www.cyberpunk.net) brand system — Night City void chrome, clipped HUD geometry, and cyber-yellow signal accents.
 
-Supports **dark** (Night City) and **light** (California yellow) modes.
+**Dark-only** Night City theme (no light mode).
 
 ## Features
 
 - Pure-black Night City chrome across the full app shell and editor
-- Warm cream California light mode for readable long-form notes (not a blinding yellow page)
 - Cyber yellow (`#FCEE0A`) primary accent, cyan HUD focus (`#00F0FF`), hot signal red danger
 - Notched / clipped corners — hard borders, ghost outline buttons, solid yellow CTAs
 - Sharp rectangular tags and yellow-fill checkboxes
@@ -39,14 +38,9 @@ Once published to the Obsidian community directory:
 
 - Obsidian `1.5.0` or newer
 
-## Modes
+## Look
 
-| Mode | Look |
-| --- | --- |
-| Dark (Night City) | Unified pure-black / near-black chrome + editor, yellow accent, cyan focus |
-| Light (California yellow) | Warm cream / pale-yellow paper (`#F7F4D8` / `#FFFEF0`), black text, yellow accents |
-
-Toggle under **Settings → Appearance → Base color scheme**.
+Unified pure-black / near-black chrome + editor, yellow accent, cyan focus. Switching Obsidian’s base color scheme does not introduce a separate light palette — Cyber stays Night City.
 
 ## Fonts
 
