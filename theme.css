@@ -591,16 +591,27 @@ body {
   color: var(--nav-item-color-hover);
 }
 
-/* Active file — yellow left rail + clipped chip (no :has — catalogue perf policy) */
-.nav-file-title.is-active {
-  color: var(--nav-item-color-active);
-  font-weight: 700;
-  letter-spacing: 0.03em;
+/* Active file — yellow left rail + clipped chip (no trailing solid notch) */
+.nav-files-container .tree-item.nav-file:has(> .nav-file-title.is-active) {
   background: rgba(252, 238, 10, 0.1);
   border-color: rgba(252, 238, 10, 0.55);
   box-shadow: inset 3px 0 0 #fcee0a;
   clip-path: var(--cyber-clip-chip);
+}
+
+.nav-file-title.is-active {
+  color: var(--nav-item-color-active);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
   padding-inline-end: 0.6em;
+}
+.nav-files-container
+  .tree-item.nav-file:has(> .nav-file-title.is-active)::after {
+  content: none;
+  display: none;
 }
 
 /* Vault root — NEWS_ style micro-label */
