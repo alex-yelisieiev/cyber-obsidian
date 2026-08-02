@@ -10,7 +10,6 @@
    4. Ghost + solid CTA — outline buttons + solid yellow primary actions
    5. HUD micro-labels  — UPPERCASE + 0.08–0.12em tracking (NEWS_ / /// .module)
    6. No remote fonts   — Rajdhani embedded locally at EMBED_RAJDHANI marker
-   7. Fluid HUD motion  — spring-like enter/hover via transform + opacity only
    Dark-only theme     — no light / California paper mode
 ═══════════════════════════════════════════════════════════════════════════
 */
@@ -179,15 +178,6 @@ body {
 
   --divider-width: 1px;
   --prompt-border-width: 1px;
-
-  /* Motion — spring mass, not linear UI fades */
-  --cyber-ease-out: cubic-bezier(0.32, 0.72, 0, 1);
-  --cyber-ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
-  --cyber-ease-press: cubic-bezier(0.34, 1.3, 0.64, 1);
-  --cyber-dur-fast: 160ms;
-  --cyber-dur: 280ms;
-  --cyber-dur-enter: 420ms;
-  --cyber-dur-modal: 480ms;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -2363,196 +2353,25 @@ progress::-webkit-progress-value {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   32. MOTION — fluid HUD choreography
-   transform + opacity only · spring easings · respects reduced-motion
-   Opt out: Style Settings → “Disable interface motion” (cyber-static)
+   32. MOTION — restrained HUD presence
    ═══════════════════════════════════════════════════════════════════════ */
 
-@keyframes cyber-enter-rise {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes cyber-enter-scale {
-  from {
-    opacity: 0;
-    transform: translateY(14px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes cyber-notice-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes cyber-focus-ring {
-  0%,
-  100% {
-    box-shadow: 0 0 0 2px var(--input-focus-ring-color);
-  }
-  50% {
-    box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.45),
-      0 0 18px rgba(0, 240, 255, 0.22);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
-  body:not(.cyber-static) .nav-file-title,
-  body:not(.cyber-static) .nav-folder-title,
-  body:not(.cyber-static) .workspace-tab-header,
-  body:not(.cyber-static) .side-dock-ribbon-action,
-  body:not(.cyber-static) .nav-action-button,
-  body:not(.cyber-static) .tag,
-  body:not(.cyber-static) a.tag,
-  body:not(.cyber-static) button,
-  body:not(.cyber-static) .mod-button,
-  body:not(.cyber-static) button.mod-cta,
-  body:not(.cyber-static) .suggestion-item,
-  body:not(.cyber-static) .menu-item,
-  body:not(.cyber-static) .view-action,
-  body:not(.cyber-static) .clickable-icon,
-  body:not(.cyber-static) .vertical-tab-nav-item,
-  body:not(.cyber-static) .status-bar-item,
-  body:not(.cyber-static) .nav-files-container .tree-item.nav-file,
-  body:not(.cyber-static) .checkbox-container,
-  body:not(.cyber-static) .checkbox-container::after,
-  body:not(.cyber-static) .setting-item-control input,
-  body:not(.cyber-static) .workspace-leaf-resize-handle {
-    transition:
-      background-color var(--cyber-dur) var(--cyber-ease-out),
-      color var(--cyber-dur-fast) var(--cyber-ease-out),
-      border-color var(--cyber-dur) var(--cyber-ease-out),
-      box-shadow var(--cyber-dur) var(--cyber-ease-out),
-      opacity var(--cyber-dur) var(--cyber-ease-out),
-      transform var(--cyber-dur) var(--cyber-ease-out),
-      filter var(--cyber-dur) var(--cyber-ease-out);
-  }
-
-  /* —— Enter: overlays / surfaces —— */
-  body:not(.cyber-static) .modal,
-  body:not(.cyber-static) .modal-container .modal {
-    animation: cyber-enter-scale var(--cyber-dur-modal) var(--cyber-ease-out)
-      both;
-  }
-
-  body:not(.cyber-static) .menu {
-    animation: cyber-enter-rise var(--cyber-dur-enter) var(--cyber-ease-out) both;
-  }
-
-  body:not(.cyber-static) .prompt,
-  body:not(.cyber-static) .suggestion-container {
-    animation: cyber-enter-rise var(--cyber-dur-enter) var(--cyber-ease-snap)
-      both;
-  }
-
-  body:not(.cyber-static) .notice {
-    animation: cyber-notice-in var(--cyber-dur-enter) var(--cyber-ease-out) both;
-  }
-
-  body:not(.cyber-static) .tooltip {
-    animation: cyber-enter-rise var(--cyber-dur-fast) var(--cyber-ease-out) both;
-  }
-
-  /* —— Hover / press physics (transform only) —— */
-  body:not(.cyber-static) .side-dock-ribbon-action:hover {
-    transform: translateX(1px);
-  }
-
-  body:not(.cyber-static) .side-dock-ribbon-action:active,
-  body:not(.cyber-static) .nav-action-button:active,
-  body:not(.cyber-static) .clickable-icon:active,
-  body:not(.cyber-static) .view-action:active {
-    transform: scale(0.94);
-    transition-timing-function: var(--cyber-ease-press);
-    transition-duration: var(--cyber-dur-fast);
-  }
-
-  body:not(.cyber-static) .workspace-tab-header:hover {
-    transform: translateY(-1px);
-  }
-
-  body:not(.cyber-static) .workspace-tab-header.is-active {
-    transform: translateY(0);
-  }
-
-  body:not(.cyber-static) button:hover,
-  body:not(.cyber-static) .mod-button:hover {
-    transform: translateY(-1px);
-  }
-
-  body:not(.cyber-static) button:active,
-  body:not(.cyber-static) .mod-button:active,
-  body:not(.cyber-static) button.mod-cta:active,
-  body:not(.cyber-static) .mod-cta:active {
-    transform: scale(0.98) translateY(0);
-    transition-timing-function: var(--cyber-ease-press);
-    transition-duration: var(--cyber-dur-fast);
-  }
-
-  body:not(.cyber-static) .menu-item:hover,
-  body:not(.cyber-static) .menu-item.is-selected,
-  body:not(.cyber-static) .suggestion-item.is-selected,
-  body:not(.cyber-static) .suggestion-item:hover {
-    transform: translateX(2px);
-  }
-
-  body:not(.cyber-static) .vertical-tab-nav-item:hover {
-    transform: translateX(2px);
-  }
-
-  body:not(.cyber-static) .vertical-tab-nav-item.is-active {
-    transform: translateX(0);
-  }
-
-  body:not(.cyber-static) .nav-file-title:hover,
-  body:not(.cyber-static) .nav-folder-title:hover {
-    transform: translateX(1px);
-  }
-
-  body:not(.cyber-static) .nav-file-title.is-active {
-    transform: translateX(0);
-  }
-
-  body:not(.cyber-static) .tag:hover,
-  body:not(.cyber-static) a.tag:hover {
-    transform: translateY(-1px);
-  }
-
-  /* —— Focus: cyan HUD pulse (inputs only) —— */
-  body:not(.cyber-static) input:focus,
-  body:not(.cyber-static) textarea:focus,
-  body:not(.cyber-static) select:focus,
-  body:not(.cyber-static) .dropdown:focus {
-    animation: cyber-focus-ring 1.8s var(--cyber-ease-out) 1;
-  }
-
-  /* —— Toggle thumb —— */
-  body:not(.cyber-static) .checkbox-container::after {
-    transition:
-      transform var(--cyber-dur) var(--cyber-ease-snap),
-      background-color var(--cyber-dur-fast) var(--cyber-ease-out);
-  }
-
-  /* —— Callout settle when opened in reading view —— */
-  body:not(.cyber-static) .markdown-rendered .callout {
-    animation: cyber-enter-rise var(--cyber-dur-enter) var(--cyber-ease-out)
-      both;
+  .nav-file-title,
+  .nav-folder-title,
+  .workspace-tab-header,
+  .side-dock-ribbon-action,
+  .tag,
+  a.tag,
+  button.mod-cta,
+  button,
+  .suggestion-item,
+  .menu-item,
+  .view-action,
+  .clickable-icon,
+  .nav-files-container .tree-item.nav-file {
+    transition: background-color 120ms ease, color 120ms ease,
+      box-shadow 120ms ease, border-color 120ms ease;
   }
 }
 
@@ -2563,29 +2382,6 @@ progress::-webkit-progress-value {
     transition: none !important;
     animation: none !important;
   }
-}
-
-body.cyber-static *,
-body.cyber-static *::before,
-body.cyber-static *::after {
-  animation: none !important;
-}
-
-body.cyber-static .nav-file-title,
-body.cyber-static .nav-folder-title,
-body.cyber-static .workspace-tab-header,
-body.cyber-static .side-dock-ribbon-action,
-body.cyber-static button,
-body.cyber-static .menu-item,
-body.cyber-static .suggestion-item,
-body.cyber-static .clickable-icon,
-body.cyber-static .view-action,
-body.cyber-static .vertical-tab-nav-item,
-body.cyber-static .tag,
-body.cyber-static a.tag,
-body.cyber-static .nav-files-container .tree-item.nav-file {
-  transition: none !important;
-  transform: none !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -2612,12 +2408,6 @@ settings:
   - id: cyber-hud-labels
     title: HUD micro-labels
     description: Force monospace uppercase chrome labels (vault root, H4, settings groups)
-    type: class-toggle
-    default: false
-
-  - id: cyber-static
-    title: Disable interface motion
-    description: Turn off enter animations and hover/press transforms
     type: class-toggle
     default: false
 */
