@@ -233,8 +233,9 @@ body {
   --text-normal: #f5f5f5;
   --text-muted: #d9d9d9;
   --text-faint: #575757;
+  /* Yellow accent is light → Obsidian uses *-inverted for flair/CTA labels */
   --text-on-accent: #000000;
-  --text-on-accent-inverted: #fcee0a;
+  --text-on-accent-inverted: #000000;
   --text-error: #fe1038;
   --text-warning: #ff6000;
   --text-success: #fcee0a;
@@ -643,7 +644,9 @@ body {
 }
 
 .nav-file-tag {
-  background: transparent;
+  position: relative;
+  z-index: 1;
+  background: #0a0a0a;
   color: var(--cyber-cyan);
   border: 1px solid rgba(0, 240, 255, 0.45);
   border-radius: 0;
@@ -652,6 +655,7 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 0.08em 0.4em;
+  clip-path: none;
 }
 .tree-item-self .tree-item-icon,
 .collapse-icon {
@@ -1721,8 +1725,10 @@ select:focus,
   box-shadow: 0 0 0 2px var(--input-focus-ring-color);
 }
 
-/* Ghost outline buttons */
-button,
+/* Ghost outline buttons — skip icon/chrome controls (clip-path breaks them) */
+button:not(.clickable-icon):not(.view-action):not(.nav-action-button):not(
+    .side-dock-ribbon-action
+  ),
 .mod-button {
   background: transparent;
   border: 1px solid var(--background-modifier-border);
@@ -1740,7 +1746,9 @@ button,
     transform var(--cyber-dur-press) var(--cyber-ease-press);
 }
 
-button:hover {
+button:not(.clickable-icon):not(.view-action):not(.nav-action-button):not(
+    .side-dock-ribbon-action
+  ):hover {
   background: var(--background-modifier-hover);
   border-color: var(--cyber-yellow);
   color: var(--cyber-yellow);
@@ -2183,8 +2191,40 @@ progress::-webkit-progress-value {
   border-radius: 0;
 }
 
+/* Flair chips (e.g. “theme” next to community themes) — black on yellow */
+.flair {
+  border-radius: 0;
+  clip-path: none;
+  font-family: var(--font-interface-theme);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.flair.mod-pop {
+  background-color: #fcee0a !important;
+  color: #000000 !important;
+  border: 1px solid #000000;
+}
+
 .setting-item-control button.clickable-icon {
   border-radius: 0;
+  clip-path: none;
+}
+
+/* Theme / dropdown selects — solid fill so native markers don't bleed through */
+select,
+.dropdown {
+  background-color: #0a0a0a !important;
+  color: var(--text-normal) !important;
+  clip-path: none !important;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+
+select option {
+  background-color: #0a0a0a;
+  color: #f5f5f5;
 }
 
 /* Mobile / phone adjustments keep sharp geometry */
